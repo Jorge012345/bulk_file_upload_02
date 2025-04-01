@@ -1,0 +1,14 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - echo "Instalando dependencias..."
+      - pip install -r requirements.txt
+      - pip install -r test-requirements.txt
+  build:
+    commands:
+      - echo "Ejecutando pruebas con pytest..."
+      - python3 -m pytest testing/test_create_batch.py -s

@@ -1,0 +1,26 @@
+{
+  "name": "bulk_file_upload_02",
+  "version": "1.0.0",
+  "description": "- Docker: No - Arquitectura serverless: Yes - CI/CD: Codepipeline",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jorge012345/bulk_file_upload_02.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jorge012345/bulk_file_upload_02/issues"
+  },
+  "homepage": "https://github.com/Jorge012345/bulk_file_upload_02#readme",
+  "devDependencies": {
+    "serverless": "^4.10.0",
+    "serverless-dotenv-plugin": "^6.0.0",
+    "serverless-offline": "^14.4.0",
+    "serverless-python-requirements": "^6.1.0"
+  }
+}

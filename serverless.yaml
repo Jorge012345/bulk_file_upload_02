@@ -1,0 +1,79 @@
+service: ${self:custom.serviceName}
+package:
+  individually: true
+  exclude:
+    - "**/__pycache__/**"
+    - requirements.txt
+    - test-requirements.txt
+    - package.json
+    - package-lock.json
+    - .serverless/**
+    - node_modules/**
+    - venv/**
+    - testing/**
+    - .env
+  include:
+    - "main.py"
+
+provider:
+  name: aws
+  runtime: python3.12
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+  timeout: 15
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            - dynamodb:DescribeTable
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "arn:aws:dynamodb:us-east-1:*:*"
+  environment:
+    STAGE: ${self:provider.stage}
+    
+  apiGateway:
+    binaryMediaTypes:
+      - multipart/form-data
+      - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+
+custom:
+  serviceName: bulk-file-upload
+  pythonRequirements:
+    dockerizePip: false
+    pipCmdExtraArgs: ['--platform', 'manylinux2014_x86_64', '--only-binary=:all:']
+    layer:
+      name: ${self:custom.serviceName}-layer
+      description: Bulk file upload app layer
+      compatibleRuntimes:
+        - python3.12
+    noDeploy:
+      - pytest
+
+plugins:
+  - serverless-python-requirements
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+functions:
+  app:
+    handler: src/root/main.handler
+    name: ${self:custom.serviceName}-${self:provider.stage}-app
+    description: Root de la app.
+    layers:
+      - { Ref: PythonRequirementsLambdaLayer }
+    events:
+      - http:
+          method: any
+          path: /{proxy+}
+      - http:
+          method: any
+          path: /
+
+resources:
+  ${file(pipeline.yml)}
