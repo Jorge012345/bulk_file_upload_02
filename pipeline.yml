@@ -42,6 +42,7 @@ Resources:
         Type: GITHUB
         Location: https://github.com/Jorge012345/bulk_file_upload_02.git
         BuildSpec: buildspec.yml
+        ReportBuildStatus: true
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
