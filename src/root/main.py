@@ -15,7 +15,7 @@ app.add_middleware(
 )
 @app.get("")
 async def root():
-    return {"message": "Bienvenidos al Backend!!!!!"}
+    return {"message": "Bienvenidos al Backend!!!!!!"}
 
 app.include_router(create_batch)
 
