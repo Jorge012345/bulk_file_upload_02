@@ -74,7 +74,7 @@ Resources:
               Configuration:
                 ConnectionArn: ${env:GITHUB_CONNECTION_ARN}
                 FullRepositoryId: Jorge012345/bulk_file_upload_02
-                BranchName: master
+                BranchName: feature/testing
         - Name: Build
           Actions:
             - Name: BuildAction
