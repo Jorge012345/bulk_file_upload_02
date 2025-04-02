@@ -39,10 +39,8 @@ Resources:
     Properties:
       Name: pytest-ci-build-${self:provider.stage}
       Source:
-        Type: GITHUB
-        Location: https://github.com/Jorge012345/bulk_file_upload_02.git
+        Type: CODEPIPELINE
         BuildSpec: buildspec.yml
-        ReportBuildStatus: true
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -52,7 +50,7 @@ Resources:
             Value: ${self:provider.region}
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
-        Type: NO_ARTIFACTS
+        Type: CODEPIPELINE
 
   PytestCodePipeline:
     Type: AWS::CodePipeline::Pipeline
@@ -68,16 +66,15 @@ Resources:
             - Name: SourceAction
               ActionTypeId:
                 Category: Source
-                Owner: ThirdParty
-                Provider: GitHub
+                Owner: AWS
+                Provider: CodeStarSourceConnection
                 Version: 1
               OutputArtifacts:
                 - Name: SourceOutput
               Configuration:
-                Owner: Jorge012345
-                Repo: bulk_file_upload_02
-                Branch: master
-                OAuthToken: ${env:GITHUB_OAUTH_TOKEN}
+                ConnectionArn: ${env:GITHUB_CONNECTION_ARN}
+                FullRepositoryId: Jorge012345/bulk_file_upload_02
+                BranchName: master
         - Name: Build
           Actions:
             - Name: BuildAction
