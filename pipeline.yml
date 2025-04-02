@@ -37,7 +37,7 @@ Resources:
   PytestCodeBuildProject:
     Type: AWS::CodeBuild::Project
     Properties:
-      Name: pytest-ci-build-${self:provider.stage}
+      Name: pytest--ci-build-${self:provider.stage}
       Source:
         Type: GITHUB
         Location: https://github.com/Jorge012345/bulk_file_upload_02.git
