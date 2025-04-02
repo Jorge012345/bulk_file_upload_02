@@ -39,8 +39,10 @@ Resources:
     Properties:
       Name: pytest-ci-build-${self:provider.stage}
       Source:
-        Type: CODEPIPELINE
+        Type: GITHUB
+        Location: https://github.com/Jorge012345/bulk_file_upload_02.git
         BuildSpec: buildspec.yml
+        ReportBuildStatus: true
       Environment:
         Type: LINUX_CONTAINER
         ComputeType: BUILD_GENERAL1_SMALL
@@ -50,40 +52,4 @@ Resources:
             Value: ${self:provider.region}
       ServiceRole: !GetAtt CodeBuildRole.Arn
       Artifacts:
-        Type: CODEPIPELINE
-
-  PytestCodePipeline:
-    Type: AWS::CodePipeline::Pipeline
-    Properties:
-      Name: pytest-ci-pipeline-${self:provider.stage}
-      RoleArn: !GetAtt CodePipelineRole.Arn
-      ArtifactStore:
-        Type: S3
-        Location: !Ref PipelineArtifactsBucket
-      Stages:
-        - Name: Source
-          Actions:
-            - Name: SourceAction
-              ActionTypeId:
-                Category: Source
-                Owner: AWS
-                Provider: CodeStarSourceConnection
-                Version: 1
-              OutputArtifacts:
-                - Name: SourceOutput
-              Configuration:
-                ConnectionArn: ${env:GITHUB_CONNECTION_ARN}
-                FullRepositoryId: Jorge012345/bulk_file_upload_02
-                BranchName: feature/testing
-        - Name: Build
-          Actions:
-            - Name: BuildAction
-              ActionTypeId:
-                Category: Build
-                Owner: AWS
-                Provider: CodeBuild
-                Version: 1
-              InputArtifacts:
-                - Name: SourceOutput
-              Configuration:
-                ProjectName: !Ref PytestCodeBuildProject
+        Type: NO_ARTIFACTS
