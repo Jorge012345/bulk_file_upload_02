@@ -57,7 +57,7 @@ Resources:
   PytestCodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: pytest-ci-pipeline-${self:provider.stage}
+      Name: pytest--ci-pipeline-${self:provider.stage}
       RoleArn: !GetAtt CodePipelineRole.Arn
       ArtifactStore:
         Type: S3
