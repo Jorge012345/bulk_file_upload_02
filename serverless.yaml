@@ -75,5 +75,5 @@ functions:
           method: any
           path: /
 
-resources:
-  ${file(pipeline.yml)}
+# resources:
+#   ${file(pipeline.yml)}
